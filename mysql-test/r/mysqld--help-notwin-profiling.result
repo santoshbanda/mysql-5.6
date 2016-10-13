@@ -1330,6 +1330,7 @@ The following options may be given as the first argument:
  --separate-conn-handling-thread 
  Use a separate thread from the accept thread to offload
  connection handling
+ (Defaults to on; use --skip-separate-conn-handling-thread to disable.)
  --server-id=#       Uniquely identifies the server instance in the community
  of replication partners
  --server-id-bits=#  Set number of significant bits in server-id
@@ -1564,10 +1565,12 @@ The following options may be given as the first argument:
  document fields received through row based replication.
  --use-fbson-output-format 
  Uses FBSON format as document type output.
- --use-socket-sharding 
- Use multiple listen sockets on the same mysqld port
  --use-lock-sharding Use sharding to reduce contention on certain
  high-contention locks
+ (Defaults to on; use --skip-use-lock-sharding to disable.)
+ --use-socket-sharding 
+ Use multiple listen sockets on the same mysqld port
+ (Defaults to on; use --skip-use-socket-sharding to disable.)
  -u, --user=name     Run mysqld daemon as user.
  --validate-user-plugins 
  Turns on additional validation of authentication plugins
@@ -1775,8 +1778,8 @@ net-read-timeout 30
 net-retry-count 10
 net-write-timeout 60
 new FALSE
-num-conn-handling-threads 1
-num-sharded-listen-sockets 1
+num-conn-handling-threads 4
+num-sharded-listen-sockets 4
 num-sharded-locks 4
 old FALSE
 old-alter-table FALSE
@@ -1997,7 +2000,7 @@ secure-file-priv (No default value)
 select-into-file-fsync-size 0
 select-into-file-fsync-timeout 0
 send-error-before-closing-timed-out-connection TRUE
-separate-conn-handling-thread FALSE
+separate-conn-handling-thread TRUE
 server-id 0
 server-id-bits 32
 session-track-gtids OFF
@@ -2062,8 +2065,8 @@ updatable-views-with-limit YES
 use-db-uuid FALSE
 use-fbson-input-format FALSE
 use-fbson-output-format FALSE
-use-socket-sharding FALSE
-use-lock-sharding FALSE
+use-lock-sharding TRUE
+use-socket-sharding TRUE
 validate-user-plugins TRUE
 verbose TRUE
 wait-timeout 28800

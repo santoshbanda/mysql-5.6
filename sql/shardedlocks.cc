@@ -5,7 +5,7 @@
 // currently this is global, but we
 // can make it per lock type if lock sharding
 // as a strategy takes off.
-my_bool gl_lock_sharding= 0;
+my_bool gl_lock_sharding= 1;
 uint num_sharded_locks= 4;
 
 // Thomas Wang integer hash function
@@ -29,15 +29,20 @@ static size_t get_mutex_shard(const THD *thd) {
 }
 
 std::pair<ShardedThreads::t_setitr, bool> ShardedThreads::insert(THD*& value ) {
-  return m_thread_list[get_mutex_shard(value)].insert(value);
+  size_t sv = get_mutex_shard(value);
+  DBUG_ASSERT(sv < m_thread_list.size());
+  return m_thread_list[sv].insert(value);
 }
 
 size_t ShardedThreads::erase(THD*& value) {
-  return m_thread_list[get_mutex_shard(value)].erase(value);
+  size_t sv = get_mutex_shard(value);
+  DBUG_ASSERT(sv < m_thread_list.size());
+  return m_thread_list[sv].erase(value);
 }
 
 Thread_iterator ShardedThreads::find(THD *value) {
-   uint sv = get_mutex_shard(value);
+  size_t sv = get_mutex_shard(value);
+  DBUG_ASSERT(sv < m_thread_list.size());
    auto itr = m_thread_list[sv].find(value);
    if (itr != m_thread_list[sv].end()) {
      return Thread_iterator(this, sv, itr);

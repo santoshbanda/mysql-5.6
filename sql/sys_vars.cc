@@ -5587,7 +5587,7 @@ static Sys_var_mybool Sys_use_socket_sharding(
        "use_socket_sharding",
        "Use multiple listen sockets on the same mysqld port",
        READ_ONLY GLOBAL_VAR(gl_socket_sharding),
-       CMD_LINE(OPT_ARG), DEFAULT(FALSE));
+       CMD_LINE(OPT_ARG), DEFAULT(TRUE));
 
 // This variable controls the number of threads that
 // mysqld can use to poll for and accept incoming client connections.
@@ -5600,7 +5600,7 @@ static Sys_var_uint Sys_num_sharded_sockets(
        "num_sharded_listen_sockets",
        "Use more than 1 socket to listen on the same mysqld port",
        READ_ONLY GLOBAL_VAR(num_sharded_sockets), CMD_LINE(OPT_ARG),
-       VALID_RANGE(1, 10), DEFAULT(1), BLOCK_SIZE(1));
+       VALID_RANGE(1, 10), DEFAULT(4), BLOCK_SIZE(1));
 #endif
 
 static Sys_var_mybool Sys_offload_conn_handling(
@@ -5608,7 +5608,7 @@ static Sys_var_mybool Sys_offload_conn_handling(
        "Use a separate thread from the accept thread "
        "to offload connection handling",
        READ_ONLY GLOBAL_VAR(separate_conn_handling_thread),
-       CMD_LINE(OPT_ARG), DEFAULT(FALSE));
+       CMD_LINE(OPT_ARG), DEFAULT(TRUE));
 
 // This variable controls the number of threads that mysqld will use
 // to do the heavy lifting of creating connection datastructures
@@ -5625,7 +5625,7 @@ static Sys_var_uint Sys_num_conn_handling_threads(
        "num_conn_handling_threads",
        "Use these many threads to offload accept threads",
        READ_ONLY GLOBAL_VAR(num_conn_handling_threads), CMD_LINE(OPT_ARG),
-       VALID_RANGE(1, 10), DEFAULT(1), BLOCK_SIZE(1));
+       VALID_RANGE(1, 10), DEFAULT(4), BLOCK_SIZE(1));
 #endif
 
 #ifdef SHARDED_LOCKING
@@ -5633,7 +5633,7 @@ static Sys_var_mybool Sys_use_sharded_locks(
        "use_lock_sharding",
        "Use sharding to reduce contention on certain high-contention locks",
        READ_ONLY GLOBAL_VAR(gl_lock_sharding),
-       CMD_LINE(OPT_ARG), DEFAULT(FALSE));
+       CMD_LINE(OPT_ARG), DEFAULT(TRUE));
 
 static Sys_var_uint Sys_num_lock_shards(
        "num_sharded_locks",
